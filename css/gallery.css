@@ -825,16 +825,25 @@ body.gallery-menu-open {
 .gallery__video-popup-content {
     position: relative;
 
-    width: min(1100px, 100%);
+    width: min(1100px, calc(100vw - 40px));
+    aspect-ratio: 16 / 9;
 
     z-index: 2;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.gallery__video-popup-player {
+.gallery__video-popup-player,
+.gallery-drive-video {
     display: block;
 
     width: 100%;
-    max-height: 82vh;
+    height: 100%;
+    max-height: none;
+
+    border: 0;
 
     background: #000;
 }
@@ -1659,4 +1668,27 @@ body.gallery-menu-open {
         grid-template-columns: 1fr;
         gap: 55px;
     }
+}
+
+/* =========================================================
+   VIDEO POPUP — MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .gallery__video-popup {
+        padding: 20px;
+    }
+
+    .gallery__video-popup-content {
+        width: calc(100vw - 40px);
+        aspect-ratio: 16 / 9;
+    }
+
+    .gallery__video-popup-close {
+        top: -42px;
+        right: 0;
+        font-size: 28px;
+    }
+
 }
