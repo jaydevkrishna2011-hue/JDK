@@ -1685,20 +1685,28 @@ body.gallery-menu-open {
 
 @media (max-width: 700px) {
     /*
-     * Google Drive mobile preview currently renders its control/seek
-     * bar at the top of the embedded player.
-     *
-     * Keep the Drive player inside the portfolio, but crop that top
-     * strip so the video itself remains clean and centered.
+     * The mobile Drive player is opened in real browser fullscreen
+     * from the user's gallery tap. Do not crop or offset the iframe;
+     * fullscreen needs the complete player viewport.
      */
-    .gallery__video-popup-content {
-        overflow: hidden;
-    }
-
     .gallery-drive-video {
         width: 100%;
-        height: calc(100% + 48px);
-        margin-top: -48px;
+        height: 100%;
+        margin: 0;
+        border: 0;
+        background: #000;
+    }
+
+    .gallery-drive-video:fullscreen {
+        width: 100vw;
+        height: 100dvh;
+        background: #000;
+    }
+
+    .gallery-drive-video:-webkit-full-screen {
+        width: 100vw;
+        height: 100vh;
+        background: #000;
     }
 }
 
