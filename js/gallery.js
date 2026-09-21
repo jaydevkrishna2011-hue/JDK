@@ -1054,12 +1054,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       };
 
+      /* Keep fullscreen inside the original tap/click gesture. */
+      enterMobileFullscreen();
+
       const playPromise = videoPlayer.play();
 
-      if (playPromise && typeof playPromise.then === "function") {
-        playPromise.then(enterMobileFullscreen).catch(() => {});
-      } else {
-        enterMobileFullscreen();
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(() => {});
       }
 
       return;
