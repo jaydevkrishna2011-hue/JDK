@@ -919,7 +919,7 @@ document.addEventListener("DOMContentLoaded", () => {
        GOOGLE DRIVE PREVIEW URL
        ========================================================= */
 
-  function getGoogleDrivePreviewUrl(url) {
+  function getGoogleDriveVideoUrl(url) {
     if (!url) {
       return "";
     }
@@ -936,7 +936,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const fileId = match[1];
 
-    return "https://drive.google.com/file/d/" + fileId + "/preview";
+    /*
+     * Use the actual Drive file endpoint instead of
+     * /preview. /preview embeds Google's own player UI,
+     * which cannot be styled to match the portfolio.
+     */
+    return "https://drive.google.com/uc?export=download&id=" + fileId;
   }
 
   /* =========================================================
@@ -968,32 +973,32 @@ document.addEventListener("DOMContentLoaded", () => {
    ========================================================= */
 
   function openVideo(videoSource) {
-    if (!videoPopup) {
-      console.warn("JDK Gallery: Video popup not found.");
+    if (!videoPopup || !videoPlayer) {
+      console.warn("JDK Gallery: Video player not found.");
       return;
     }
 
-    console.log("JDK Gallery: Opening video popup.");
-
-    /*
-     * Remove image popup if one exists
-     */
-    removePopupImage();
-
-    /*
-     * Get popup content
-     */
     const popupContent = videoPopup.querySelector(
       ".gallery__video-popup-content",
     );
 
     if (!popupContent) {
-      console.warn("JDK Gallery: Popup content not found.");
       return;
     }
 
     /*
-     * Remove any existing Google Drive iframe
+     * Remove image slider if one exists.
+     */
+    const oldSlider = popupContent.querySelector(".gallery-image-slider");
+
+    if (oldSlider) {
+      oldSlider.remove();
+    }
+
+    /*
+     * Remove any old Drive iframe.
+     * We no longer use /preview because that creates
+     * Google's embedded player UI.
      */
     const oldIframe = popupContent.querySelector(".gallery-drive-video");
 
@@ -1002,55 +1007,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*
-     * Hide original HTML5 video player
-     *
-     * Google Drive /preview requires an iframe.
+     * Use the native HTML5 video player.
      */
-    if (videoPlayer) {
-      videoPlayer.pause();
+    videoPlayer.pause();
 
-      videoPlayer.removeAttribute("src");
+    videoPlayer.removeAttribute("src");
 
-      videoPlayer.load();
+    videoPlayer.load();
 
-      videoPlayer.style.display = "none";
-    }
+    videoPlayer.src = getGoogleDriveVideoUrl(videoSource);
 
-    /*
-     * Create Google Drive player
-     */
-    const iframe = document.createElement("iframe");
+    videoPlayer.controls = true;
+    videoPlayer.playsInline = true;
+    videoPlayer.preload = "metadata";
+    videoPlayer.style.display = "block";
 
-    iframe.className = "gallery-drive-video";
-
-    iframe.src = getGoogleDrivePreviewUrl(videoSource);
-
-    iframe.setAttribute("allow", "autoplay; fullscreen");
-
-    iframe.setAttribute("allowfullscreen", "");
-
-    iframe.setAttribute("frameborder", "0");
-
-    iframe.style.display = "block";
-    iframe.style.width = "100%";
-    iframe.style.height = "min(67.5vw, 675px)";
-    iframe.style.maxHeight = "82vh";
-    iframe.style.border = "0";
-    iframe.style.background = "#000";
-
-    /*
-     * Add player to popup
-     */
-    popupContent.appendChild(iframe);
-
-    /*
-     * OPEN POPUP
-     */
     videoPopup.classList.add("is-open");
 
     videoPopup.setAttribute("aria-hidden", "false");
 
     document.body.classList.add("gallery-video-open");
+
+    /*
+     * Start playback from the user's gallery click.
+     */
+    const playPromise = videoPlayer.play();
+
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {
+        /*
+         * Browser may block autoplay. The native
+         * play button remains available.
+         */
+      });
+    }
   }
 
   /* =========================================================
