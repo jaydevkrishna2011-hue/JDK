@@ -230,7 +230,7 @@
 
 
 /* =========================================================
-   MOBILE MENU — SAME SYSTEM AS ABOUT / OTHER PAGES
+   MOBILE MENU — GALLERY / MAIN INTERNAL PAGE SYSTEM
    ========================================================= */
 
 .gallery__mobile-menu {
@@ -240,24 +240,20 @@
     z-index: var(--z-overlay);
 
     display: flex;
-    flex-direction: column;
+    align-items: center;
     justify-content: center;
 
-    padding: 40px 8vw;
+    padding: 30px 20px;
 
-    background: var(--color-black);
+    background: rgba(5, 5, 5, 0.96);
 
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 
-    transform: translateY(-20px);
-
     transition:
-        opacity 0.45s ease,
-        visibility 0.45s ease,
-        transform 0.55s
-        cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.35s ease,
+        visibility 0.35s ease;
 }
 
 .gallery__mobile-menu.is-open,
@@ -265,33 +261,36 @@
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-
-    transform: translateY(0);
 }
 
 .gallery__mobile-close {
     position: absolute;
 
-    top: 32px;
-    right: var(--page-padding-desktop);
+    top: 30px;
+    right: 20px;
 
+    width: 28px;
+    height: 28px;
+
+    margin: 0;
     padding: 0;
 
     border: 0;
 
     background: transparent;
 
-    color: rgba(242, 240, 235, 0.7);
+    color: var(--color-white);
 
-    font-family: var(--font-body);
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+    font-weight: 300;
+    line-height: 26px;
 
-    font-size: 10px;
-    font-weight: var(--weight-regular);
-
-    line-height: 1;
-    letter-spacing: 0.18em;
+    letter-spacing: 0;
 
     cursor: pointer;
+
+    opacity: 0.95;
 
     transition: color 0.3s ease;
 }
@@ -304,36 +303,36 @@
     display: flex;
 
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 
-    gap: 18px;
+    gap: 26px;
+
+    text-align: center;
 }
 
 .gallery__mobile-navigation a {
-    color: var(--color-white);
+    color: rgba(242, 240, 235, 0.92);
 
     text-decoration: none;
 
-    font-family: var(--font-display);
+    font-family: var(--font-body);
 
-    font-size: clamp(46px, 12vw, 82px);
+    font-size: 9px;
+    font-weight: 400;
 
-    font-weight: 300;
+    line-height: 1;
 
-    line-height: 0.95;
-    letter-spacing: -0.045em;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
 
     transition:
         color 0.3s ease,
-        transform 0.35s
-        cubic-bezier(0.22, 1, 0.36, 1);
+        opacity 0.3s ease;
 }
 
 .gallery__mobile-navigation a:hover,
 .gallery__mobile-navigation a.is-active {
     color: var(--color-accent);
-
-    transform: translateX(10px);
 }
 
 body.gallery-menu-open {
