@@ -1073,24 +1073,13 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("gallery-video-open");
 
       /*
-       * MOBILE:
-       * Enter real browser fullscreen immediately from the user's
-       * gallery tap. This lets Google's Drive player use its proper
-       * fullscreen layout, where the control bar sits at the bottom.
+       * iPhone / iOS Safari does not reliably allow a cross-origin
+       * Google Drive iframe to be forced into native fullscreen.
+       *
+       * The mobile popup is therefore made fullscreen-sized with CSS.
+       * This keeps the video on the portfolio and keeps our close
+       * button clickable.
        */
-      /*
-       * Fullscreen the entire video popup, not the iframe.
-       * This keeps the portfolio close button inside the fullscreen
-       * document layer and above the Drive player.
-       */
-      if (videoPopup.requestFullscreen) {
-        videoPopup.requestFullscreen().catch(() => {
-          /* Fullscreen can be unavailable on some mobile browsers. */
-        });
-      } else if (videoPopup.webkitRequestFullscreen) {
-        videoPopup.webkitRequestFullscreen();
-      }
-
       return;
     }
 
