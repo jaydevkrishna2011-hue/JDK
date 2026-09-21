@@ -1395,6 +1395,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const driveIframe = videoPopup.querySelector(".gallery-drive-video");
 
     if (driveIframe) {
+      if (document.fullscreenElement === driveIframe) {
+        document.exitFullscreen().catch(() => {});
+      }
+
       driveIframe.src = "about:blank";
 
       driveIframe.remove();
