@@ -851,11 +851,11 @@ body.gallery-menu-open {
 .gallery__video-popup-close {
     position: fixed;
 
-    top: 18px;
-    right: 18px;
+    top: max(16px, env(safe-area-inset-top));
+    left: 50%;
 
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
 
     display: flex;
     align-items: center;
@@ -864,28 +864,37 @@ body.gallery-menu-open {
     margin: 0;
     padding: 0;
 
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    transform: translateX(-50%);
+
+    border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 50%;
 
-    background: rgba(0, 0, 0, 0.72);
+    background: rgba(0, 0, 0, 0.9);
 
-    color: var(--color-white);
+    color: #ffffff;
 
-    font-size: 28px;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
     font-weight: 300;
     line-height: 1;
 
     cursor: pointer;
 
-    z-index: 99999;
+    z-index: 2147483647;
     pointer-events: auto;
+
     -webkit-tap-highlight-color: transparent;
 
-    transition:
-        color 0.3s ease,
-        background 0.3s ease;
-}
+    box-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(255, 255, 255, 0.12);
 
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
 .gallery__video-popup-close:hover {
     color: var(--color-accent);
 }
@@ -1747,12 +1756,14 @@ body.gallery-menu-open {
 }
 
 .gallery__video-popup-close:hover {
-    background: rgba(0, 0, 0, 0.95);
-    border-color: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #ffffff;
+    color: #ffffff;
+    transform: translateX(-50%) scale(1.06);
 }
 
 .gallery__video-popup-close:active {
-    transform: scale(0.94);
+    transform: translateX(-50%) scale(0.94);
 }
 
 
@@ -1793,10 +1804,13 @@ body.gallery-menu-open {
         position: fixed;
 
         top: max(16px, env(safe-area-inset-top));
-        right: max(16px, env(safe-area-inset-right));
+        left: 50%;
+        right: auto;
 
-        width: 44px;
-        height: 44px;
+        width: 46px;
+        height: 46px;
+
+        transform: translateX(-50%);
 
         z-index: 2147483647;
         pointer-events: auto;
