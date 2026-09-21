@@ -1057,24 +1057,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const isMobileVideo = window.matchMedia("(max-width: 700px)").matches;
 
     if (isMobileVideo) {
+      /*
+       * MOBILE: open the Google Drive preview directly.
+       *
+       * Google has a current mobile rendering issue with embedded
+       * Drive video controls. Opening the native Drive preview
+       * avoids the broken in-page player while keeping the same
+       * video file and permissions.
+       */
+      const previewUrl = getGoogleDrivePreviewUrl(videoSource);
+
       videoPlayer.pause();
       videoPlayer.removeAttribute("src");
       videoPlayer.load();
-      videoPlayer.style.display = "none";
 
-      const mobileIframe = document.createElement("iframe");
+      videoPopup.classList.remove("is-open");
+      videoPopup.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("gallery-video-open");
 
-      mobileIframe.className = "gallery-drive-video";
-      mobileIframe.src = getGoogleDrivePreviewUrl(videoSource);
-      mobileIframe.title = "JAYDEV KRISHNA video";
-      mobileIframe.setAttribute(
-        "allow",
-        "autoplay; fullscreen; picture-in-picture"
-      );
-      mobileIframe.setAttribute("allowfullscreen", "");
-      mobileIframe.setAttribute("frameborder", "0");
+      const opened = window.open(previewUrl, "_blank");
 
-      popupContent.appendChild(mobileIframe);
+      if (!opened) {
+        window.location.href = previewUrl;
+      }
 
       return;
     }
