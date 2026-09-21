@@ -1078,12 +1078,17 @@ document.addEventListener("DOMContentLoaded", () => {
        * gallery tap. This lets Google's Drive player use its proper
        * fullscreen layout, where the control bar sits at the bottom.
        */
-      if (iframe.requestFullscreen) {
-        iframe.requestFullscreen().catch(() => {
+      /*
+       * Fullscreen the POPUP CONTENT instead of the iframe.
+       * This keeps our portfolio close button visible above the
+       * Google Drive player while the video fills the screen.
+       */
+      if (popupContent.requestFullscreen) {
+        popupContent.requestFullscreen().catch(() => {
           /* Fullscreen can be unavailable on some mobile browsers. */
         });
-      } else if (iframe.webkitRequestFullscreen) {
-        iframe.webkitRequestFullscreen();
+      } else if (popupContent.webkitRequestFullscreen) {
+        popupContent.webkitRequestFullscreen();
       }
 
       return;
@@ -1395,7 +1400,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const driveIframe = videoPopup.querySelector(".gallery-drive-video");
 
     if (driveIframe) {
-      if (document.fullscreenElement === driveIframe) {
+      if (document.fullscreenElement === driveIframe || document.fullscreenElement === popupContent) {
         document.exitFullscreen().catch(() => {});
       }
 
