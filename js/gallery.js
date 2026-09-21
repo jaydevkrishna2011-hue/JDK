@@ -991,8 +991,8 @@ document.addEventListener("DOMContentLoaded", () => {
    ========================================================= */
 
   function openVideo(videoSource) {
-    if (!videoPopup || !videoPlayer) {
-      console.warn("JDK Gallery: Video player not found.");
+    if (!videoPopup) {
+      console.warn("JDK Gallery: Video popup not found.");
       return;
     }
 
@@ -1005,7 +1005,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*
-     * Remove image slider if one exists.
+     * Remove any previous image slider.
      */
     const oldSlider = popupContent.querySelector(".gallery-image-slider");
 
@@ -1014,88 +1014,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*
-     * Remove any old Drive iframe before opening a new video.
+     * Remove any previous Google Drive player.
      */
     const oldIframe = popupContent.querySelector(".gallery-drive-video");
 
     if (oldIframe) {
+      oldIframe.src = "about:blank";
       oldIframe.remove();
     }
 
     /*
-     * Use the native HTML5 video player.
-     */
-    videoPlayer.pause();
-
-    videoPlayer.removeAttribute("src");
-
-    videoPlayer.load();
-
-    videoPlayer.src = getGoogleDriveVideoUrl(videoSource);
-
-    videoPlayer.controls = true;
-    videoPlayer.playsInline = true;
-    videoPlayer.preload = "metadata";
-    videoPlayer.style.display = "block";
-
-    videoPopup.classList.add("is-open");
-
-    videoPopup.setAttribute("aria-hidden", "false");
-
-    document.body.classList.add("gallery-video-open");
-
-    /*
-     * MOBILE VIDEO
+     * Google Drive is the video player.
      *
-     * Keep the video inside the portfolio. Google Drive's native
-     * preview player is used here because the actual Drive files
-     * are not reliable HTML5 <video> sources on mobile.
+     * We intentionally do not create a second/native HTML5
+     * player. Drive already provides its own playback controls,
+     * seek bar, volume, settings and fullscreen UI.
      */
-    const isMobileVideo = window.matchMedia("(max-width: 700px)").matches;
+    const iframe = document.createElement("iframe");
 
-    if (isMobileVideo) {
-      videoPlayer.pause();
-      videoPlayer.removeAttribute("src");
-      videoPlayer.load();
-      videoPlayer.style.display = "none";
+    iframe.className = "gallery-drive-video";
+    iframe.src = getGoogleDrivePreviewUrl(videoSource);
+    iframe.title = "Video player";
+    iframe.setAttribute(
+      "allow",
+      "autoplay; fullscreen; picture-in-picture",
+    );
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.setAttribute("frameborder", "0");
 
-      const iframe = document.createElement("iframe");
-      iframe.className = "gallery-drive-video";
-      iframe.src = getGoogleDrivePreviewUrl(videoSource);
-      iframe.title = "Video player";
-      iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
-      iframe.setAttribute("allowfullscreen", "");
-      iframe.setAttribute("frameborder", "0");
-
-      popupContent.appendChild(iframe);
-      videoPopup.classList.add("is-open");
-      videoPopup.setAttribute("aria-hidden", "false");
-      document.body.classList.add("gallery-video-open");
-
-      /*
-       * iPhone / iOS Safari does not reliably allow a cross-origin
-       * Google Drive iframe to be forced into native fullscreen.
-       *
-       * The mobile popup is therefore made fullscreen-sized with CSS.
-       * This keeps the video on the portfolio and keeps our close
-       * button clickable.
-       */
-      return;
-    }
+    popupContent.appendChild(iframe);
 
     /*
-     * Start playback from the user's gallery click.
+     * The portfolio only owns the popup and the close button.
+     * Google Drive owns everything inside the player.
      */
-    const playPromise = videoPlayer.play();
-
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {
-        /*
-         * Browser may block autoplay. The native
-         * play button remains available.
-         */
-      });
-    }
+    videoPopup.classList.add("is-open");
+    videoPopup.setAttribute("aria-hidden", "false");
+    document.body.classList.add("gallery-video-open");
   }
 
   /* =========================================================
@@ -1382,42 +1337,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*
-     * Remove Google Drive iframe.
-     * This stops the Drive video.
+     * Remove the Google Drive player.
+     * Changing the iframe source before removal stops playback
+     * without trying to control Drive's internal UI.
      */
-
     const driveIframe = videoPopup.querySelector(".gallery-drive-video");
 
     if (driveIframe) {
-      if (document.fullscreenElement === driveIframe || document.fullscreenElement === popupContent || document.fullscreenElement === videoPopup) {
-        document.exitFullscreen().catch(() => {});
-      }
-
       driveIframe.src = "about:blank";
-
       driveIframe.remove();
     }
 
     /*
-     * Reset original HTML5 video player.
+     * Reset the legacy/native video element if one exists.
+     * It is no longer used for playback.
      */
-
     if (videoPlayer) {
       videoPlayer.pause();
-
       videoPlayer.removeAttribute("src");
-
       videoPlayer.load();
-
-      videoPlayer.style.display = "block";
+      videoPlayer.style.display = "none";
     }
 
     removePopupImage();
 
     videoPopup.classList.remove("is-open");
-
     videoPopup.setAttribute("aria-hidden", "true");
-
     document.body.classList.remove("gallery-video-open");
   }
 
