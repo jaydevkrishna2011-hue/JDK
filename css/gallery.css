@@ -248,6 +248,7 @@
 
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
 
     z-index: var(--z-overlay);
 
@@ -256,9 +257,11 @@
         visibility 0.35s ease;
 }
 
-.gallery__mobile-menu.is-open {
+.gallery__mobile-menu.is-open,
+.gallery__mobile-menu.is-active {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
 .gallery__mobile-close {
