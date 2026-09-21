@@ -1685,7 +1685,82 @@ body.gallery-menu-open {
 
 @media (max-width: 700px) {
     /*
-     * Fullscreen belongs to the popup content so the portfolio
+     * MOBILE VIDEO VIEWPORT
+     *
+     * iPhone Safari cannot reliably native-fullscreen a
+     * cross-origin Google Drive iframe. Make the portfolio
+     * popup itself occupy the complete mobile viewport instead.
+     */
+    .gallery__video-popup {
+        padding: 0;
+    }
+
+    .gallery__video-popup-content {
+        position: relative;
+        width: 100vw;
+        height: 100dvh;
+        max-width: none;
+        max-height: none;
+        aspect-ratio: auto;
+        background: #000;
+        overflow: hidden;
+    }
+
+    .gallery-drive-video {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border: 0;
+        background: #000;
+    }
+
+    .gallery__video-popup-close {
+        position: fixed;
+        top: max(16px, env(safe-area-inset-top));
+        right: max(16px, env(safe-area-inset-right));
+        z-index: 9999;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.72);
+        color: #fff;
+        font-size: 28px;
+        line-height: 1;
+        pointer-events: auto;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /*
+     * Legacy fullscreen rules are intentionally neutralized.
+     * The popup viewport above is the reliable iPhone solution.
+     */
+    .gallery__video-popup-content:fullscreen,
+    .gallery__video-popup-content:-webkit-full-screen {
+        width: 100vw;
+        height: 100dvh;
+        max-width: none;
+        max-height: none;
+        aspect-ratio: auto;
+    }
+
+    .gallery__video-popup-content:fullscreen .gallery-drive-video,
+    .gallery__video-popup-content:-webkit-full-screen .gallery-drive-video {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+    }
+
+    /*
+     * The mobile Drive player is opened in real browser fullscreen so the portfolio
      * close button remains available above the Drive iframe.
      */
     .gallery__video-popup:fullscreen,
