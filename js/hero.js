@@ -54,21 +54,31 @@
 
 
     /* =====================================================
-       MOUSE MOVE
+       MOUSE INTERACTION
+       Desktop only
+       Mobile: disabled intentionally
        ===================================================== */
 
-    window.addEventListener(
-        "mousemove",
-        (event) => {
+    const isMobile =
+        window.matchMedia("(max-width: 600px)").matches;
 
-            mouseX =
-                event.clientX;
 
-            mouseY =
-                event.clientY;
+    if (!isMobile) {
 
-        }
-    );
+        window.addEventListener(
+            "mousemove",
+            (event) => {
+
+                mouseX =
+                    event.clientX;
+
+                mouseY =
+                    event.clientY;
+
+            }
+        );
+
+    }
 
 
     /* =====================================================
@@ -76,6 +86,8 @@
        ===================================================== */
 
     function animateMouse() {
+
+        if (isMobile) return;
 
         currentMouseX +=
             (mouseX - currentMouseX) * 0.08;
