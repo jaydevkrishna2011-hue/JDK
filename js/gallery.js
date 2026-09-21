@@ -1079,16 +1079,16 @@ document.addEventListener("DOMContentLoaded", () => {
        * fullscreen layout, where the control bar sits at the bottom.
        */
       /*
-       * Fullscreen the POPUP CONTENT instead of the iframe.
-       * This keeps our portfolio close button visible above the
-       * Google Drive player while the video fills the screen.
+       * Fullscreen the entire video popup, not the iframe.
+       * This keeps the portfolio close button inside the fullscreen
+       * document layer and above the Drive player.
        */
-      if (popupContent.requestFullscreen) {
-        popupContent.requestFullscreen().catch(() => {
+      if (videoPopup.requestFullscreen) {
+        videoPopup.requestFullscreen().catch(() => {
           /* Fullscreen can be unavailable on some mobile browsers. */
         });
-      } else if (popupContent.webkitRequestFullscreen) {
-        popupContent.webkitRequestFullscreen();
+      } else if (videoPopup.webkitRequestFullscreen) {
+        videoPopup.webkitRequestFullscreen();
       }
 
       return;
@@ -1400,7 +1400,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const driveIframe = videoPopup.querySelector(".gallery-drive-video");
 
     if (driveIframe) {
-      if (document.fullscreenElement === driveIframe || document.fullscreenElement === popupContent) {
+      if (document.fullscreenElement === driveIframe || document.fullscreenElement === popupContent || document.fullscreenElement === videoPopup) {
         document.exitFullscreen().catch(() => {});
       }
 
