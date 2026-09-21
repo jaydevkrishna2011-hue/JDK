@@ -1676,6 +1676,7 @@ body.gallery-menu-open {
 
 @media (max-width: 700px) {
 
+    /* Mobile uses the browser native fullscreen video player. */
     .gallery__video-popup {
         padding: 20px;
     }
