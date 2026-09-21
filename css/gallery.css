@@ -230,31 +230,34 @@
 
 
 /* =========================================================
-   MOBILE MENU
+   MOBILE MENU — SAME SYSTEM AS ABOUT / OTHER PAGES
    ========================================================= */
 
 .gallery__mobile-menu {
     position: fixed;
     inset: 0;
 
+    z-index: var(--z-overlay);
+
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
 
-    width: 100%;
-    height: 100%;
+    padding: 40px 8vw;
 
-    background: rgba(5, 5, 5, 0.97);
+    background: var(--color-black);
 
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
 
-    z-index: var(--z-overlay);
+    transform: translateY(-20px);
 
     transition:
-        opacity 0.35s ease,
-        visibility 0.35s ease;
+        opacity 0.45s ease,
+        visibility 0.45s ease,
+        transform 0.55s
+        cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .gallery__mobile-menu.is-open,
@@ -262,58 +265,80 @@
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
+
+    transform: translateY(0);
 }
 
 .gallery__mobile-close {
     position: absolute;
 
-    top: 22px;
-    right: 20px;
+    top: 32px;
+    right: var(--page-padding-desktop);
 
-    margin: 0;
     padding: 0;
 
     border: 0;
 
     background: transparent;
 
-    color: var(--color-white);
+    color: rgba(242, 240, 235, 0.7);
 
-    font-size: 30px;
-    font-weight: 300;
+    font-family: var(--font-body);
+
+    font-size: 10px;
+    font-weight: var(--weight-regular);
+
     line-height: 1;
+    letter-spacing: 0.18em;
 
     cursor: pointer;
+
+    transition: color 0.3s ease;
+}
+
+.gallery__mobile-close:hover {
+    color: var(--color-accent);
 }
 
 .gallery__mobile-navigation {
     display: flex;
-    flex-direction: column;
-    align-items: center;
 
-    gap: 28px;
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 18px;
 }
 
 .gallery__mobile-navigation a {
     color: var(--color-white);
+
     text-decoration: none;
 
-    font-family: var(--font-body);
-    font-size: 11px;
-    font-weight: 400;
-    line-height: 1;
+    font-family: var(--font-display);
 
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
+    font-size: clamp(46px, 12vw, 82px);
 
-    transition: color 0.3s ease;
+    font-weight: 300;
+
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+
+    transition:
+        color 0.3s ease,
+        transform 0.35s
+        cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .gallery__mobile-navigation a:hover,
 .gallery__mobile-navigation a.is-active {
     color: var(--color-accent);
+
+    transform: translateX(10px);
 }
 
+body.gallery-menu-open {
+    overflow: hidden;
+}
 
 /* =========================================================
    INTRO
