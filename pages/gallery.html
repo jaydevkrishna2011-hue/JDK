@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JDK — Selected Work</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/gallery.css">
+</head>
+
+<body class="gallery-page">
+
+    <!-- =====================================================
+         CINEMATIC BACKGROUND
+         ===================================================== -->
+
+    <div class="gallery__background" aria-hidden="true">
+
+        <img
+            class="gallery__background-image"
+            src="../assets/images/hero-mountain.jpg"
+            alt=""
+        >
+
+        <div class="gallery__background-overlay"></div>
+
+        <canvas
+            class="gallery__particles"
+        ></canvas>
+
+    </div>
+
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="gallery__header">
+
+        <a href="../index.html" class="gallery__logo">
+            JD
+        </a>
+
+        <nav class="gallery__navigation" aria-label="Main navigation">
+
+            <a href="../index.html?direct=home#hero">
+                HOME
+            </a>
+
+            <a href="work.html" class="is-active">
+                WORK
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="services.html">
+                SERVICES
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+        <button
+            class="gallery__menu"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+        >
+            <span class="gallery__menu-icon"></span>
+        </button>
+
+    </header>
+
+
+    <!-- =====================================================
+         MOBILE MENU
+         ===================================================== -->
+
+    <div class="gallery__mobile-menu" aria-hidden="true">
+
+        <button
+            class="gallery__mobile-close"
+            type="button"
+            aria-label="Close menu"
+        >
+            ×
+        </button>
+
+        <nav class="gallery__mobile-navigation">
+
+            <a href="../index.html?direct=home#hero">
+                HOME
+            </a>
+
+            <a href="work.html" class="is-active">
+                WORK
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="services.html">
+                SERVICES
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+    </div>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main>
+
+        <!-- ================================================
+             INTRO
+             ================================================ -->
+
+        <section class="gallery__intro">
+
+            <span class="gallery__eyebrow">
+                SELECTED WORK
+            </span>
+
+            <h1 class="gallery__title">
+                VISUAL<br>
+                STORIES
+            </h1>
+
+        </section>
+
+
+        <!-- ================================================
+             CATEGORY NAVIGATION
+             ================================================ -->
+
+        <nav
+            class="gallery__categories"
+            aria-label="Work categories"
+        >
+
+            <a
+                href="gallery.html?category=videography"
+                data-category="videography"
+            >
+                VIDEOGRAPHY
+            </a>
+
+            <a
+                href="gallery.html?category=photography"
+                data-category="photography"
+            >
+                PHOTOGRAPHY
+            </a>
+
+            <a
+                href="gallery.html?category=content"
+                data-category="content"
+            >
+                CONTENT CREATION
+            </a>
+
+            <a
+                href="gallery.html?category=uiux"
+                data-category="uiux"
+            >
+                UI / UX
+            </a>
+
+        </nav>
+
+
+        <!-- ================================================
+             CATEGORY INFORMATION
+             ================================================ -->
+
+        <section class="gallery__category-heading">
+
+            <div
+                class="gallery__category-number"
+                data-gallery-number
+            >
+                01
+            </div>
+
+            <div class="gallery__category-content">
+
+                <span>
+                    CATEGORY
+                </span>
+
+                <h2 data-gallery-title>
+                    VIDEOGRAPHY
+                </h2>
+
+                <p data-gallery-description>
+                    Cinematic visual storytelling crafted through
+                    composition, movement, light and atmosphere.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================================
+             DYNAMIC COLLAGE
+             ================================================ -->
+
+        <section
+            class="gallery__collage"
+            data-gallery
+            aria-label="Selected work"
+        >
+
+            <!-- Gallery items generated by gallery.js -->
+
+        </section>
+
+
+        <!-- ================================================
+             VIDEO POPUP
+             ================================================ -->
+
+        <div
+            class="gallery__video-popup"
+            data-video-popup
+            aria-hidden="true"
+        >
+
+            <div
+                class="gallery__video-popup-backdrop"
+                data-video-close
+            ></div>
+
+            <div
+                class="gallery__video-popup-content"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Video player"
+            >
+
+                <button
+                    class="gallery__video-popup-close"
+                    type="button"
+                    aria-label="Close video"
+                    data-video-close
+                >
+                    ×
+                </button>
+
+                <video
+                    class="gallery__video-popup-player"
+                    data-video-player
+                    controls
+                    playsinline
+                    preload="metadata"
+                >
+                    Your browser does not support HTML5 video.
+                </video>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================
+             CTA
+             ================================================ -->
+
+        <section class="gallery__cta">
+
+            <a href="contact.html">
+                LET'S CREATE
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="gallery__footer">
+
+        © 2026 JAYDEV KRISHNA — ALL RIGHTS RESERVED.
+
+    </footer>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+<script src="https://unpkg.com/lenis@1.2.3/dist/lenis.min.js"></script>
+<script src="../js/global.js"></script>
+             <script src="../js/gallery.js"></script>
+
+</body>
+
+</html>
