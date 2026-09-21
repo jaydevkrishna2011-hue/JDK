@@ -945,6 +945,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* =========================================================
+       GOOGLE DRIVE PREVIEW URL
+       ========================================================= */
+
+  function getGoogleDrivePreviewUrl(url) {
+    if (!url || !url.includes("drive.google.com")) {
+      return url || "";
+    }
+
+    const match = url.match(/\/file\/d\/([^/]+)/);
+
+    if (!match) {
+      return url;
+    }
+
+    return "https://drive.google.com/file/d/" + match[1] + "/preview";
+  }
+
+  /* =========================================================
        REMOVE POPUP IMAGE
        ========================================================= */
 
@@ -1031,37 +1049,32 @@ document.addEventListener("DOMContentLoaded", () => {
     /*
      * MOBILE VIDEO FIX
      *
-     * Chrome/Safari mobile use their own touch controls and can
-     * render them awkwardly inside a small modal. On mobile only,
-     * move the video into the browser's native fullscreen player.
-     * Desktop and tablet behavior stays unchanged.
+     * Google Drive's direct download endpoint is not a reliable
+     * HTML5 video source on mobile. Use Drive's native preview
+     * player on mobile only. Desktop/tablet keep the existing
+     * native player behavior unchanged.
      */
     const isMobileVideo = window.matchMedia("(max-width: 700px)").matches;
 
     if (isMobileVideo) {
-      const enterMobileFullscreen = () => {
-        try {
-          if (typeof videoPlayer.requestFullscreen === "function") {
-            const result = videoPlayer.requestFullscreen();
-            if (result && typeof result.catch === "function") {
-              result.catch(() => {});
-            }
-          } else if (typeof videoPlayer.webkitEnterFullscreen === "function") {
-            videoPlayer.webkitEnterFullscreen();
-          }
-        } catch (error) {
-          /* Native fullscreen is optional; the normal mobile player remains available. */
-        }
-      };
+      videoPlayer.pause();
+      videoPlayer.removeAttribute("src");
+      videoPlayer.load();
+      videoPlayer.style.display = "none";
 
-      /* Keep fullscreen inside the original tap/click gesture. */
-      enterMobileFullscreen();
+      const mobileIframe = document.createElement("iframe");
 
-      const playPromise = videoPlayer.play();
+      mobileIframe.className = "gallery-drive-video";
+      mobileIframe.src = getGoogleDrivePreviewUrl(videoSource);
+      mobileIframe.title = "JAYDEV KRISHNA video";
+      mobileIframe.setAttribute(
+        "allow",
+        "autoplay; fullscreen; picture-in-picture"
+      );
+      mobileIframe.setAttribute("allowfullscreen", "");
+      mobileIframe.setAttribute("frameborder", "0");
 
-      if (playPromise && typeof playPromise.catch === "function") {
-        playPromise.catch(() => {});
-      }
+      popupContent.appendChild(mobileIframe);
 
       return;
     }
