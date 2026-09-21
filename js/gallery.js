@@ -1072,6 +1072,20 @@ document.addEventListener("DOMContentLoaded", () => {
       videoPopup.setAttribute("aria-hidden", "false");
       document.body.classList.add("gallery-video-open");
 
+      /*
+       * MOBILE:
+       * Enter real browser fullscreen immediately from the user's
+       * gallery tap. This lets Google's Drive player use its proper
+       * fullscreen layout, where the control bar sits at the bottom.
+       */
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen().catch(() => {
+          /* Fullscreen can be unavailable on some mobile browsers. */
+        });
+      } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+      }
+
       return;
     }
 
