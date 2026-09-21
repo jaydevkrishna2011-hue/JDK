@@ -1688,217 +1688,21 @@ body.gallery-menu-open {
    GOOGLE DRIVE MOBILE VIDEO
    ========================================================= */
 
+/*
+ * Google Drive is the complete video player.
+ * The portfolio does not add a second player or a close button.
+ */
+
 .gallery-drive-video {
     display: block;
     width: 100%;
     height: 100%;
-    min-height: 0;
     border: 0;
     background: #000;
 }
 
 @media (max-width: 700px) {
-    /*
-     * MOBILE VIDEO VIEWPORT
-     *
-     * iPhone Safari cannot reliably native-fullscreen a
-     * cross-origin Google Drive iframe. Make the portfolio
-     * popup itself occupy the complete mobile viewport instead.
-     */
-    .gallery__video-popup {
-        padding: 0;
-    }
 
-    .gallery__video-popup-content {
-        position: relative;
-        width: 100vw;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        aspect-ratio: auto;
-        background: #000;
-        overflow: hidden;
-    }
-
-    .gallery-drive-video {
-        position: absolute;
-        inset: 0;
-        z-index: 1;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        border: 0;
-        background: #000;
-    }
-
-    .gallery__video-popup-close {
-        top: max(16px, env(safe-area-inset-top));
-        right: max(16px, env(safe-area-inset-right));
-        z-index: 999999;
-        width: 44px;
-        height: 44px;
-    }
-
-    /*
-     * Legacy fullscreen rules are intentionally neutralized.
-     * The popup viewport above is the reliable iPhone solution.
-     */
-    .gallery__video-popup-content:fullscreen,
-    .gallery__video-popup-content:-webkit-full-screen {
-        width: 100vw;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        aspect-ratio: auto;
-    }
-
-    .gallery__video-popup-content:fullscreen .gallery-drive-video,
-    .gallery__video-popup-content:-webkit-full-screen .gallery-drive-video {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-    }
-
-    /*
-     * The mobile Drive player is opened in real browser fullscreen so the portfolio
-     * close button remains available above the Drive iframe.
-     */
-    .gallery__video-popup:fullscreen,
-    .gallery__video-popup:-webkit-full-screen {
-        width: 100vw;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        padding: 0;
-        margin: 0;
-        background: #000;
-        z-index: 999999;
-    }
-
-    .gallery__video-popup:fullscreen .gallery__video-popup-content,
-    .gallery__video-popup:-webkit-full-screen .gallery__video-popup-content {
-        width: 100vw;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        aspect-ratio: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #000;
-    }
-
-    .gallery__video-popup:fullscreen .gallery__video-popup-close--fullscreen,
-    .gallery__video-popup:-webkit-full-screen .gallery__video-popup-close--fullscreen {
-        position: fixed;
-        top: max(16px, env(safe-area-inset-top));
-        right: max(16px, env(safe-area-inset-right));
-        z-index: 2147483647;
-        width: 44px;
-        height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid rgba(255,255,255,.45);
-        border-radius: 50%;
-        background: rgba(0,0,0,.72);
-        color: #fff;
-        font-size: 28px;
-        line-height: 1;
-        cursor: pointer;
-        pointer-events: auto;
-    }
-
-    .gallery__video-popup:fullscreen .gallery__video-popup-close--fullscreen:hover,
-    .gallery__video-popup:-webkit-full-screen .gallery__video-popup-close--fullscreen:hover {
-        background: rgba(0,0,0,.9);
-    }
-
-    .gallery__video-popup-content:fullscreen {
-        width: 100vw;
-        height: 100dvh;
-        max-width: none;
-        max-height: none;
-        aspect-ratio: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #000;
-    }
-
-    .gallery__video-popup-content:-webkit-full-screen {
-        width: 100vw;
-        height: 100vh;
-        max-width: none;
-        max-height: none;
-        aspect-ratio: auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #000;
-    }
-
-    .gallery__video-popup-content:fullscreen .gallery-drive-video,
-    .gallery__video-popup-content:-webkit-full-screen .gallery-drive-video {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-    }
-
-    .gallery__video-popup-content:fullscreen .gallery__video-popup-close,
-    .gallery__video-popup-content:-webkit-full-screen .gallery__video-popup-close {
-        position: fixed;
-        top: 18px;
-        right: 18px;
-        z-index: 9999;
-        width: 42px;
-        height: 42px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background: rgba(0, 0, 0, 0.65);
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        color: #fff;
-    }
-
-    /*
-     * The mobile Drive player is opened in real browser fullscreen
-     * from the user's gallery tap. Do not crop or offset the iframe;
-     * fullscreen needs the complete player viewport.
-     */
-    .gallery-drive-video {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        border: 0;
-        background: #000;
-    }
-
-    .gallery-drive-video:fullscreen {
-        width: 100vw;
-        height: 100dvh;
-        background: #000;
-    }
-
-    .gallery-drive-video:-webkit-full-screen {
-        width: 100vw;
-        height: 100vh;
-        background: #000;
-    }
-}
-
-/* =========================================================
-   VIDEO POPUP — MOBILE
-   ========================================================= */
-
-@media (max-width: 700px) {
-
-    /*
-     * Google Drive owns the player controls.
-     * The portfolio only provides the full-screen popup
-     * viewport and the close button.
-     */
     .gallery__video-popup {
         padding: 0;
     }
@@ -1927,19 +1731,6 @@ body.gallery-menu-open {
 
         margin: 0;
         border: 0;
-
         background: #000;
-    }
-
-    .gallery__video-popup-close {
-        position: fixed;
-
-        top: max(16px, env(safe-area-inset-top));
-        right: max(16px, env(safe-area-inset-right));
-
-        z-index: 999999;
-
-        width: 44px;
-        height: 44px;
     }
 }
