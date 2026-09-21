@@ -1681,7 +1681,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    mobileMenu.classList.add("is-open");
+    mobileMenu.classList.add("is-open", "is-active");
 
     mobileMenu.setAttribute("aria-hidden", "false");
 
@@ -1693,7 +1693,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    mobileMenu.classList.remove("is-open");
+    mobileMenu.classList.remove("is-open", "is-active");
 
     mobileMenu.setAttribute("aria-hidden", "true");
 
