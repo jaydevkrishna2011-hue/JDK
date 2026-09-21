@@ -1014,9 +1014,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /*
-     * Remove any old Drive iframe.
-     * We no longer use /preview because that creates
-     * Google's embedded player UI.
+     * Remove any old Drive iframe before opening a new video.
      */
     const oldIframe = popupContent.querySelector(".gallery-drive-video");
 
@@ -1047,39 +1045,32 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("gallery-video-open");
 
     /*
-     * MOBILE VIDEO FIX
+     * MOBILE VIDEO
      *
-     * Google Drive's direct download endpoint is not a reliable
-     * HTML5 video source on mobile. Use Drive's native preview
-     * player on mobile only. Desktop/tablet keep the existing
-     * native player behavior unchanged.
+     * Keep the video inside the portfolio. Google Drive's native
+     * preview player is used here because the actual Drive files
+     * are not reliable HTML5 <video> sources on mobile.
      */
     const isMobileVideo = window.matchMedia("(max-width: 700px)").matches;
 
     if (isMobileVideo) {
-      /*
-       * MOBILE: open the Google Drive preview directly.
-       *
-       * Google has a current mobile rendering issue with embedded
-       * Drive video controls. Opening the native Drive preview
-       * avoids the broken in-page player while keeping the same
-       * video file and permissions.
-       */
-      const previewUrl = getGoogleDrivePreviewUrl(videoSource);
-
       videoPlayer.pause();
       videoPlayer.removeAttribute("src");
       videoPlayer.load();
+      videoPlayer.style.display = "none";
 
-      videoPopup.classList.remove("is-open");
-      videoPopup.setAttribute("aria-hidden", "true");
-      document.body.classList.remove("gallery-video-open");
+      const iframe = document.createElement("iframe");
+      iframe.className = "gallery-drive-video";
+      iframe.src = getGoogleDrivePreviewUrl(videoSource);
+      iframe.title = "Video player";
+      iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
+      iframe.setAttribute("allowfullscreen", "");
+      iframe.setAttribute("frameborder", "0");
 
-      const opened = window.open(previewUrl, "_blank");
-
-      if (!opened) {
-        window.location.href = previewUrl;
-      }
+      popupContent.appendChild(iframe);
+      videoPopup.classList.add("is-open");
+      videoPopup.setAttribute("aria-hidden", "false");
+      document.body.classList.add("gallery-video-open");
 
       return;
     }
