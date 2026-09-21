@@ -1029,6 +1029,43 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("gallery-video-open");
 
     /*
+     * MOBILE VIDEO FIX
+     *
+     * Chrome/Safari mobile use their own touch controls and can
+     * render them awkwardly inside a small modal. On mobile only,
+     * move the video into the browser's native fullscreen player.
+     * Desktop and tablet behavior stays unchanged.
+     */
+    const isMobileVideo = window.matchMedia("(max-width: 700px)").matches;
+
+    if (isMobileVideo) {
+      const enterMobileFullscreen = () => {
+        try {
+          if (typeof videoPlayer.requestFullscreen === "function") {
+            const result = videoPlayer.requestFullscreen();
+            if (result && typeof result.catch === "function") {
+              result.catch(() => {});
+            }
+          } else if (typeof videoPlayer.webkitEnterFullscreen === "function") {
+            videoPlayer.webkitEnterFullscreen();
+          }
+        } catch (error) {
+          /* Native fullscreen is optional; the normal mobile player remains available. */
+        }
+      };
+
+      const playPromise = videoPlayer.play();
+
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise.then(enterMobileFullscreen).catch(() => {});
+      } else {
+        enterMobileFullscreen();
+      }
+
+      return;
+    }
+
+    /*
      * Start playback from the user's gallery click.
      */
     const playPromise = videoPlayer.play();
