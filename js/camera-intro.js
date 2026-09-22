@@ -85,43 +85,73 @@
 
 
         /* -------------------------------------------------
-           RESET ACTIVE VIDEO
+           iPhone / iOS AUTOPLAY
+           Keep the active video explicitly muted and inline.
+        ------------------------------------------------- */
+
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+        video.setAttribute("webkit-playsinline", "");
+        video.setAttribute("autoplay", "");
+
+
+        /* -------------------------------------------------
+           RESET + LOAD
         ------------------------------------------------- */
 
         try {
-
             video.currentTime = 0;
-
         } catch (error) {
-
             console.warn(
                 "Camera Intro: could not reset video.",
                 error
             );
-
         }
+
+        video.load();
 
 
         /* -------------------------------------------------
            PLAY
+           iOS Safari can need the media element to be loaded
+           before accepting autoplay.
         ------------------------------------------------- */
 
-        video.play()
-            .then(() => {
+        const playVideo = () => {
 
-                console.log(
-                    "Camera Intro: playing."
-                );
+            video.play()
+                .then(() => {
 
-            })
-            .catch((error) => {
+                    console.log(
+                        "Camera Intro: playing."
+                    );
 
-                console.error(
-                    "Camera Intro: playback failed.",
-                    error
-                );
+                })
+                .catch((error) => {
 
-            });
+                    console.error(
+                        "Camera Intro: playback failed.",
+                        error
+                    );
+
+                });
+
+        };
+
+
+        if (video.readyState >= 2) {
+            playVideo();
+        } else {
+            video.addEventListener(
+                "loadeddata",
+                playVideo,
+                { once: true }
+            );
+        }
 
     }
 
