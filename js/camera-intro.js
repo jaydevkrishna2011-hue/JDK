@@ -85,6 +85,18 @@
 
 
         /* -------------------------------------------------
+           iOS / MOBILE PLAYBACK
+           Keep the intro video explicitly muted and inline.
+        ------------------------------------------------- */
+
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+        video.setAttribute("muted", "");
+        video.setAttribute("playsinline", "");
+
+
+        /* -------------------------------------------------
            RESET ACTIVE VIDEO
         ------------------------------------------------- */
 
@@ -104,27 +116,60 @@
 
         /* -------------------------------------------------
            PLAY
+           Wait for the video to be ready if necessary.
         ------------------------------------------------- */
 
-        video.play()
-            .then(() => {
+        const playVideo = () => {
 
-                console.log(
-                    "Camera Intro: playing."
-                );
+            video.play()
+                .then(() => {
 
-            })
-            .catch((error) => {
+                    console.log(
+                        "Camera Intro: playing."
+                    );
 
-                console.error(
-                    "Camera Intro: playback failed.",
-                    error
-                );
+                })
+                .catch((error) => {
 
-            });
+                    console.warn(
+                        "Camera Intro: playback retry.",
+                        error
+                    );
+
+                    /*
+                     * Some browsers need one more attempt after
+                     * the media element becomes ready.
+                     */
+                    video.addEventListener(
+                        "canplay",
+                        () => {
+                            video.play().catch(() => {});
+                        },
+                        { once: true }
+                    );
+
+                });
+
+        };
+
+
+        if (video.readyState >= 2) {
+
+            playVideo();
+
+        } else {
+
+            video.addEventListener(
+                "canplay",
+                playVideo,
+                { once: true }
+            );
+
+            video.load();
+
+        }
 
     }
-
 
     /* =====================================================
        COMPLETE
