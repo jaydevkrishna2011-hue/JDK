@@ -85,18 +85,6 @@
 
 
         /* -------------------------------------------------
-           iOS / MOBILE PLAYBACK
-           Keep the intro video explicitly muted and inline.
-        ------------------------------------------------- */
-
-        video.muted = true;
-        video.defaultMuted = true;
-        video.playsInline = true;
-        video.setAttribute("muted", "");
-        video.setAttribute("playsinline", "");
-
-
-        /* -------------------------------------------------
            RESET ACTIVE VIDEO
         ------------------------------------------------- */
 
@@ -116,60 +104,27 @@
 
         /* -------------------------------------------------
            PLAY
-           Wait for the video to be ready if necessary.
         ------------------------------------------------- */
 
-        const playVideo = () => {
+        video.play()
+            .then(() => {
 
-            video.play()
-                .then(() => {
+                console.log(
+                    "Camera Intro: playing."
+                );
 
-                    console.log(
-                        "Camera Intro: playing."
-                    );
+            })
+            .catch((error) => {
 
-                })
-                .catch((error) => {
+                console.error(
+                    "Camera Intro: playback failed.",
+                    error
+                );
 
-                    console.warn(
-                        "Camera Intro: playback retry.",
-                        error
-                    );
-
-                    /*
-                     * Some browsers need one more attempt after
-                     * the media element becomes ready.
-                     */
-                    video.addEventListener(
-                        "canplay",
-                        () => {
-                            video.play().catch(() => {});
-                        },
-                        { once: true }
-                    );
-
-                });
-
-        };
-
-
-        if (video.readyState >= 2) {
-
-            playVideo();
-
-        } else {
-
-            video.addEventListener(
-                "canplay",
-                playVideo,
-                { once: true }
-            );
-
-            video.load();
-
-        }
+            });
 
     }
+
 
     /* =====================================================
        COMPLETE
@@ -250,7 +205,7 @@
 
     /* =====================================================
        START AUTOMATICALLY
-       
+
        global.js loads this script only after
        camera-intro.html has been inserted.
     ===================================================== */
