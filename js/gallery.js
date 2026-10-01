@@ -875,6 +875,36 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       ],
     },
+    },
+
+    /* -----------------------------------------------------
+           AI VIDEO
+           ----------------------------------------------------- */
+
+    "ai-video": {
+      number: "05",
+      title: "AI VIDEO",
+      description:
+        "Generative AI video projects combining creative concepts, visual storytelling and digital production.",
+
+      items: [
+        {
+          type: "video",
+          src: "https://drive.google.com/file/d/1CA1t_ysyo7qr-y8wJaMefBmFM1_8krk6/view?usp=drive_link",
+          thumbnail: "../assets/images/thumbnails/fruvya-juice.jpg",
+          title: "FRUVYA JUICE",
+          category: "AI VIDEO",
+        },
+
+        {
+          type: "video",
+          src: "https://drive.google.com/file/d/18POeLWOCgbg0UBnl96IqNxDRkcTE9on-/view?usp=drive_link",
+          thumbnail: "../assets/images/thumbnails/Lipstick-Ai.jpg",
+          title: "LIPSTICK AI",
+          category: "AI VIDEO",
+        },
+      ],
+    },
   };
 
   /* =========================================================
