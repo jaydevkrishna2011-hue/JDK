@@ -875,7 +875,6 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       ],
     },
-    },
 
     /* -----------------------------------------------------
            AI VIDEO
